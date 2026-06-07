@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { BrandPhilosophyBanner } from "@/components/public/home/brand-philosophy-banner";
-import { CollectionsSection } from "@/components/public/home/collections-section";
-import { CraftSection } from "@/components/public/home/craft-section";
-import { GodaiVariantsSection } from "@/components/public/home/godai-variants-section";
+import { ComingSoonSection } from "@/components/public/home/coming-soon-section";
+import { GodaiShowcase } from "@/components/public/home/godai-showcase";
 import { HeroSection } from "@/components/public/home/hero-section";
-import { NewsletterSection } from "@/components/public/home/newsletter-section";
+import { PhilosophySection } from "@/components/public/home/philosophy-section";
 import { SiteFooter } from "@/components/public/home/site-footer";
 import { getVisibleProducts } from "@/services/product-service";
 import { getVisibleSeries } from "@/services/series-service";
 import type { Product } from "@/types/product";
 import type { Series } from "@/types/series";
+import { PackagingShowcase } from "@/components/public/home/packaging-showcase";
 
 export default function HomePage() {
   const [seriesList, setSeriesList] = useState<Series[]>([]);
@@ -56,9 +55,7 @@ export default function HomePage() {
     : [];
 
   const heroProduct =
-    mainProducts.find((product) =>
-      product.slug?.toLowerCase().includes("kaminari"),
-    ) ??
+    mainProducts.find((product) => !product.isLocked && product.imageUrl) ??
     mainProducts.find((product) => !product.isLocked) ??
     null;
 
@@ -69,23 +66,16 @@ export default function HomePage() {
         heroProduct={heroProduct}
         loading={loading}
       />
-
-      <GodaiVariantsSection
+      <PackagingShowcase />
+      <GodaiShowcase
         series={mainSeries}
         products={mainProducts}
         loading={loading}
       />
 
-      <CraftSection />
+      <PhilosophySection />
 
-      <CollectionsSection
-        seriesList={seriesList}
-        productsBySeries={productsBySeries}
-      />
-
-      <BrandPhilosophyBanner />
-
-      <NewsletterSection />
+      <ComingSoonSection products={products.filter((item) => item.isLocked)} />
 
       <SiteFooter seriesList={seriesList} />
     </main>

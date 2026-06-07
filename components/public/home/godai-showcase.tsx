@@ -12,6 +12,8 @@ type Props = {
   loading: boolean;
 };
 
+const GODAI_SLOT_COUNT = 5;
+
 function getProductVisual(product: Product) {
   const slug = product.slug?.toLowerCase() ?? "";
 
@@ -19,7 +21,6 @@ function getProductVisual(product: Product) {
     return {
       image: "/assets/product/suigetsu.png",
       kanji: product.kanji || "水",
-      fallback: "S",
     };
   }
 
@@ -27,7 +28,6 @@ function getProductVisual(product: Product) {
     return {
       image: "/assets/product/kaen.png",
       kanji: product.kanji || "火",
-      fallback: "K",
     };
   }
 
@@ -35,66 +35,69 @@ function getProductVisual(product: Product) {
     return {
       image: "/assets/product/kaminari.png",
       kanji: product.kanji || "雷",
-      fallback: "K",
     };
   }
 
   return {
     image: "",
     kanji: product.kanji || "蛇",
-    fallback: "?",
+  };
+}
+
+function createSealedProduct(index: number, seriesId: string): Product {
+  return {
+    id: `sealed-${index}`,
+    seriesId,
+    name: "???",
+    slug: `sealed-${index}`,
+    kanji: "蛇",
+    element: "Sealed Variant",
+    meaning: "Sealed Variant",
+    notes: "",
+    mood: "",
+    description: "",
+    imageUrl: "",
+    cloudinaryPublicId: "",
+    sizes: [],
+    isLocked: true,
+    isVisible: true,
+    order: index + 1,
   };
 }
 
 function VariantCard({ product }: { product: Product }) {
-  const visual = getProductVisual(product);
-
   const card = (
-    <article className="group relative min-h-[390px] overflow-hidden rounded-[2rem] border border-[#c8a35f]/10 bg-[#070504] p-5 transition hover:-translate-y-1 hover:border-[#c8a35f]/45">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(200,163,95,0.13),transparent_48%)]" />
-
-      <div className="absolute right-5 top-3 font-serif text-[7rem] leading-none text-[#c8a35f]/[0.06] transition group-hover:text-[#c8a35f]/[0.1]">
-        {visual.kanji}
-      </div>
-
-      <div className="relative flex h-[230px] items-center justify-center">
-        {product.isLocked || !visual.image ? (
-          <motion.div
-            animate={{ opacity: [0.3, 0.55, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="flex h-32 w-32 items-center justify-center rounded-full border border-[#c8a35f]/20 bg-black/20 text-6xl text-[#c8a35f]/35"
-          >
-            ?
-          </motion.div>
+    <article className="group relative min-h-[430px] overflow-hidden rounded-[0.35rem] border border-[#c8a35f]/25 bg-[#050403] transition duration-500 hover:-translate-y-1 hover:border-[#c8a35f]/60">
+      <div className="relative h-[245px] overflow-hidden">
+        {product.isLocked || !product.imageUrl ? (
+          <div className="flex h-full items-center justify-center bg-[#070504]">
+            <span className="font-serif text-7xl text-[#c8a35f]/35">??</span>
+          </div>
         ) : (
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-10"
-          >
-            <Image
-              src={visual.image}
-              alt={product.name}
-              width={260}
-              height={360}
-              className="h-[220px] w-auto object-contain drop-shadow-[0_28px_50px_rgba(0,0,0,0.8)]"
-            />
-          </motion.div>
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
+          />
         )}
+
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050403] to-transparent" />
       </div>
 
-      <div className="relative z-10 border-t border-[#c8a35f]/10 pt-5">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-[#c8a35f]/70">
+      <div className="px-5 pb-5 pt-5">
+        <p className="text-[10px] uppercase tracking-[0.34em] text-[#c8a35f]/75">
           {product.isLocked
             ? "Sealed Variant"
-            : product.meaning || product.element}
+            : product.element || product.meaning || "Orochi"}
         </p>
 
         <h3 className="mt-3 font-serif text-3xl text-[#fff7ea]">
-          {product.name}
+          {product.isLocked ? "???" : product.name}
         </h3>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#f8efe0]/46">
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f8efe0]/45">
           {product.isLocked
             ? "Detail aroma masih tersegel sebagai bagian dari chapter berikutnya."
             : product.description ||
@@ -104,7 +107,7 @@ function VariantCard({ product }: { product: Product }) {
 
         <div className="mt-5 flex items-center justify-between">
           <span className="text-[10px] uppercase tracking-[0.24em] text-[#f8efe0]/32">
-            {product.isLocked ? "Classified" : "Released"}
+            {product.isLocked ? "Coming Soon" : "Released"}
           </span>
 
           {!product.isLocked ? (
@@ -132,6 +135,18 @@ export function GodaiShowcase({ series, products, loading }: Props) {
   }
 
   if (!series) return null;
+
+  const revealedProducts = [...products]
+    .filter((product) => !product.isLocked)
+    .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
+
+  const sealedProducts = Array.from({
+    length: Math.max(0, GODAI_SLOT_COUNT - revealedProducts.length),
+  }).map((_, index) =>
+    createSealedProduct(revealedProducts.length + index, series.id),
+  );
+
+  const lineupProducts = [...revealedProducts, ...sealedProducts];
 
   const featured =
     products.find((product) =>
@@ -263,7 +278,7 @@ export function GodaiShowcase({ series, products, loading }: Props) {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {products.map((product, index) => (
+            {lineupProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 22 }}

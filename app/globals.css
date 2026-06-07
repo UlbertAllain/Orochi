@@ -69,3 +69,7 @@ body {
 .font-serif {
   font-family: var(--font-cormorant);
 }
+
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+}
