@@ -56,11 +56,33 @@ export default function EditProductPage() {
 
     const sizes = values.isLocked
       ? []
-      : [
-          { label: "30ml", price: Number(values.price30) },
-          { label: "50ml", price: Number(values.price50) },
-          { label: "100ml", price: Number(values.price100) },
-        ];
+      : values.availableSizes.map((size) => {
+          switch (size) {
+            case "30ml":
+              return {
+                label: "30ml",
+                price: Number(values.price30),
+              };
+
+            case "50ml":
+              return {
+                label: "50ml",
+                price: Number(values.price50),
+              };
+
+            case "100ml":
+              return {
+                label: "100ml",
+                price: Number(values.price100),
+              };
+
+            default:
+              return {
+                label: "30ml",
+                price: Number(values.price30),
+              };
+          }
+        });
 
     await updateProduct(product.id, {
       seriesId: values.seriesId,

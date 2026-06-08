@@ -11,6 +11,7 @@ import { getVisibleSeries } from "@/services/series-service";
 import type { Product } from "@/types/product";
 import type { Series } from "@/types/series";
 import { PackagingShowcase } from "@/components/public/home/packaging-showcase";
+import { WhyOrochiSection } from "@/components/public/home/why-orochi-section";
 
 export default function HomePage() {
   const [seriesList, setSeriesList] = useState<Series[]>([]);
@@ -72,7 +73,7 @@ export default function HomePage() {
         products={mainProducts}
         loading={loading}
       />
-
+      <WhyOrochiSection />
       <PhilosophySection />
 
       <ComingSoonSection products={products.filter((item) => item.isLocked)} />

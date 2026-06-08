@@ -6,6 +6,8 @@ import ImageUpload from "@/components/admin/image-upload";
 import type { Product } from "@/types/product";
 import type { Series } from "@/types/series";
 
+type ProductSizeLabel = "30ml" | "50ml" | "100ml";
+
 type ProductFormValues = {
   seriesId: string;
   name: string;
@@ -18,6 +20,7 @@ type ProductFormValues = {
   description: string;
   imageUrl: string;
   cloudinaryPublicId: string;
+  availableSizes: ProductSizeLabel[];
   price30: number;
   price50: number;
   price100: number;
@@ -34,6 +37,8 @@ type ProductFormProps = {
   onSubmit: (values: ProductFormValues) => Promise<void>;
 };
 
+const SIZE_OPTIONS: ProductSizeLabel[] = ["30ml", "50ml", "100ml"];
+
 const emptyForm: ProductFormValues = {
   seriesId: "",
   name: "",
@@ -46,9 +51,10 @@ const emptyForm: ProductFormValues = {
   description: "",
   imageUrl: "",
   cloudinaryPublicId: "",
-  price30: 35000,
-  price50: 50000,
-  price100: 70000,
+  availableSizes: ["30ml"],
+  price30: 55000,
+  price50: 0,
+  price100: 0,
   isLocked: false,
   isVisible: true,
   order: 1,
@@ -63,6 +69,22 @@ function createSlug(value: string) {
     .trim()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-");
+}
+
+function getSizePrice(product: Product | undefined, label: ProductSizeLabel) {
+  return product?.sizes?.find((item) => item.label === label)?.price ?? 0;
+}
+
+function getInitialAvailableSizes(product?: Product): ProductSizeLabel[] {
+  if (!product?.sizes?.length) return ["30ml"];
+
+  const labels = product.sizes
+    .map((size) => size.label)
+    .filter((label): label is ProductSizeLabel =>
+      SIZE_OPTIONS.includes(label as ProductSizeLabel),
+    );
+
+  return labels.length > 0 ? labels : ["30ml"];
 }
 
 function getInitialForm(
@@ -88,12 +110,10 @@ function getInitialForm(
     description: product.description ?? "",
     imageUrl: product.imageUrl ?? "",
     cloudinaryPublicId: product.cloudinaryPublicId ?? "",
-    price30:
-      product.sizes?.find((item) => item.label === "30ml")?.price ?? 35000,
-    price50:
-      product.sizes?.find((item) => item.label === "50ml")?.price ?? 50000,
-    price100:
-      product.sizes?.find((item) => item.label === "100ml")?.price ?? 70000,
+    availableSizes: getInitialAvailableSizes(product),
+    price30: getSizePrice(product, "30ml") || 55000,
+    price50: getSizePrice(product, "50ml"),
+    price100: getSizePrice(product, "100ml"),
     isLocked: product.isLocked,
     isVisible: product.isVisible,
     order: product.order,
@@ -120,8 +140,32 @@ export function ProductForm({
     }));
   }
 
+  function toggleSize(size: ProductSizeLabel, checked: boolean) {
+    setForm((current) => {
+      if (checked) {
+        if (current.availableSizes.includes(size)) return current;
+
+        return {
+          ...current,
+          availableSizes: [...current.availableSizes, size],
+        };
+      }
+
+      return {
+        ...current,
+        availableSizes: current.availableSizes.filter((item) => item !== size),
+      };
+    });
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!form.isLocked && form.availableSizes.length === 0) {
+      alert("Pilih minimal satu ukuran yang tersedia.");
+      return;
+    }
+
     setSaving(true);
 
     try {
@@ -287,45 +331,77 @@ export function ProductForm({
         </div>
 
         {!form.isLocked ? (
-          <div className="grid gap-4 md:grid-cols-3">
-            <input
-              type="number"
-              value={form.price30}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  price30: Number(event.target.value),
-                }))
-              }
-              className={inputClass}
-              placeholder="30ml"
-            />
+          <div className="rounded-[1.5rem] border border-[#c8a35f]/10 bg-black/20 p-4">
+            <p className="text-sm text-[#f8efe0]/60">Ukuran Tersedia</p>
 
-            <input
-              type="number"
-              value={form.price50}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  price50: Number(event.target.value),
-                }))
-              }
-              className={inputClass}
-              placeholder="50ml"
-            />
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {SIZE_OPTIONS.map((size) => (
+                <label
+                  key={size}
+                  className="flex items-center gap-3 rounded-2xl border border-[#c8a35f]/10 bg-black/25 px-4 py-3 text-sm text-[#f8efe0]/65"
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.availableSizes.includes(size)}
+                    onChange={(event) => toggleSize(size, event.target.checked)}
+                  />
+                  {size}
+                </label>
+              ))}
+            </div>
 
-            <input
-              type="number"
-              value={form.price100}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  price100: Number(event.target.value),
-                }))
-              }
-              className={inputClass}
-              placeholder="100ml"
-            />
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {form.availableSizes.includes("30ml") ? (
+                <input
+                  type="number"
+                  value={form.price30}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      price30: Number(event.target.value),
+                    }))
+                  }
+                  className={inputClass}
+                  min={0}
+                  placeholder="Harga 30ml"
+                  required
+                />
+              ) : null}
+
+              {form.availableSizes.includes("50ml") ? (
+                <input
+                  type="number"
+                  value={form.price50}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      price50: Number(event.target.value),
+                    }))
+                  }
+                  className={inputClass}
+                  min={0}
+                  placeholder="Harga 50ml"
+                  required
+                />
+              ) : null}
+
+              {form.availableSizes.includes("100ml") ? (
+                <input
+                  type="number"
+                  value={form.price100}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      price100: Number(event.target.value),
+                    }))
+                  }
+                  className={inputClass}
+                  min={0}
+                  placeholder="Harga 100ml"
+                  required
+                />
+              ) : null}
+            </div>
           </div>
         ) : null}
 
