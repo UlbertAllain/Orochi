@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   },
   description:
     "Orochi Perfumes adalah katalog parfum berbasis series dengan tema elemen, suasana, dan mitologi.",
+
+  icons: {
+    icon: "/assets/title.png",
+    shortcut: "/assets/title.png",
+    apple: "/assets/title.png",
+  },
 };
 
 export default function RootLayout({
