@@ -63,7 +63,7 @@ export function HeroSection({
                 href={`/series/${mainSeries.slug}`}
                 className="rounded-md bg-[#c8a35f] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-black transition hover:bg-[#e1bd75]"
               >
-                Discover Kaminari →
+                Discover Tsuki →
               </Link>
             ) : null}
 
@@ -104,8 +104,8 @@ export function HeroSection({
           >
             {!loading ? (
               <Image
-                src="/assets/product/kaminari.png"
-                alt={heroProduct?.name ?? "Kaminari"}
+                src="/assets/product/tsuki.png"
+                alt={heroProduct?.name ?? "tsuki"}
                 width={620}
                 height={820}
                 className="h-[420px] w-auto object-contain drop-shadow-[0_50px_110px_rgba(0,0,0,0.95)]"
@@ -118,18 +118,18 @@ export function HeroSection({
               Featured
             </p>
             <h2 className="mt-3 font-serif text-4xl text-[#fff7ea]">
-              {heroProduct?.name ?? "Kaminari"}
+              {heroProduct?.name ?? "Tsuki"}
             </h2>
             <div className="mt-5 space-y-4 text-xs leading-6 text-[#f8efe0]/58">
               <p>
                 <span className="text-[#c8a35f]">Element</span>
                 <br />
-                Thunder
+                Moon
               </p>
               <p>
                 <span className="text-[#c8a35f]">Mood</span>
                 <br />
-                Powerful · Electric · Awakening
+                Sweet · Water · Fresh
               </p>
             </div>
           </div>

@@ -18,6 +18,7 @@ function formatPrice(value: number) {
     maximumFractionDigits: 0,
   }).format(value);
 }
+const SHOPEE_URL = "https://shopee.co.id/";
 
 function ProductCatalogCard({ product }: { product: Product }) {
   const card = (
@@ -51,7 +52,7 @@ function ProductCatalogCard({ product }: { product: Product }) {
           {product.isLocked ? "???" : product.name}
         </h3>
 
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f8efe0]/45">
+        <p className="mt-3 min-h-[72px] line-clamp-3 text-sm leading-6 text-[#f8efe0]/45">
           {product.isLocked
             ? "Detail aroma masih tersegel sebagai bagian dari chapter berikutnya."
             : product.description ||
@@ -178,6 +179,29 @@ export function ProductDetailClient({
                 </div>
               </div>
             ) : null}
+
+            <div className="mt-8 rounded-[1.75rem] border border-[#c8a35f]/14 bg-[#070504] p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.35em] text-[#c8a35f]/75">
+                    Official Store
+                  </p>
+
+                  <p className="mt-2 text-sm leading-7 text-[#f8efe0]/50">
+                    Checkout tersedia melalui official marketplace Orochi.
+                  </p>
+                </div>
+
+                <a
+                  href={SHOPEE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#c8a35f] px-7 text-[11px] font-bold uppercase tracking-[0.22em] text-black transition hover:bg-[#e1bd75]"
+                >
+                  Beli di Shopee →
+                </a>
+              </div>
+            </div>
           </motion.div>
 
           {/* ── RIGHT: Product Image Showcase ── */}

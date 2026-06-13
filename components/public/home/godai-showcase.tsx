@@ -12,7 +12,7 @@ type Props = {
   loading: boolean;
 };
 
-const GODAI_SLOT_COUNT = 5;
+const GODAI_SLOT_COUNT = 3;
 
 function getProductVisual(product: Product) {
   const slug = product.slug?.toLowerCase() ?? "";
@@ -31,10 +31,10 @@ function getProductVisual(product: Product) {
     };
   }
 
-  if (slug.includes("kaminari")) {
+  if (slug.includes("tsuki")) {
     return {
-      image: "/assets/product/kaminari.png",
-      kanji: product.kanji || "雷",
+      image: "/assets/product/tsuki.png",
+      kanji: product.kanji || "月",
     };
   }
 
@@ -67,8 +67,8 @@ function createSealedProduct(index: number, seriesId: string): Product {
 
 function VariantCard({ product }: { product: Product }) {
   const card = (
-    <article className="group relative min-h-[430px] overflow-hidden rounded-[0.35rem] border border-[#c8a35f]/25 bg-[#050403] transition duration-500 hover:-translate-y-1 hover:border-[#c8a35f]/60">
-      <div className="relative h-[245px] overflow-hidden">
+    <article className="group flex h-full min-h-[430px] flex-col overflow-hidden rounded-[0.35rem] border border-[#c8a35f]/25 bg-[#050403] transition duration-500 hover:-translate-y-1 hover:border-[#c8a35f]/60">
+      <div className="relative h-[245px] shrink-0 overflow-hidden">
         {product.isLocked || !product.imageUrl ? (
           <div className="flex h-full items-center justify-center bg-[#070504]">
             <span className="font-serif text-7xl text-[#c8a35f]/35">??</span>
@@ -86,7 +86,7 @@ function VariantCard({ product }: { product: Product }) {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050403] to-transparent" />
       </div>
 
-      <div className="px-5 pb-5 pt-5">
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-5">
         <p className="text-[10px] uppercase tracking-[0.34em] text-[#c8a35f]/75">
           {product.isLocked
             ? "Sealed Variant"
@@ -97,7 +97,7 @@ function VariantCard({ product }: { product: Product }) {
           {product.isLocked ? "???" : product.name}
         </h3>
 
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f8efe0]/45">
+        <p className="mt-3 min-h-[72px] line-clamp-3 text-sm leading-6 text-[#f8efe0]/45">
           {product.isLocked
             ? "Detail aroma masih tersegel sebagai bagian dari chapter berikutnya."
             : product.description ||
@@ -105,7 +105,7 @@ function VariantCard({ product }: { product: Product }) {
               "Godai variant from Orochi."}
         </p>
 
-        <div className="mt-5 flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between pt-5">
           <span className="text-[10px] uppercase tracking-[0.24em] text-[#f8efe0]/32">
             {product.isLocked ? "Coming Soon" : "Released"}
           </span>
@@ -122,7 +122,11 @@ function VariantCard({ product }: { product: Product }) {
 
   if (product.isLocked) return card;
 
-  return <Link href={`/produk/${product.slug}`}>{card}</Link>;
+  return (
+    <Link href={`/produk/${product.slug}`} className="block h-full">
+      {card}
+    </Link>
+  );
 }
 
 export function GodaiShowcase({ series, products, loading }: Props) {
@@ -149,9 +153,7 @@ export function GodaiShowcase({ series, products, loading }: Props) {
   const lineupProducts = [...revealedProducts, ...sealedProducts];
 
   const featured =
-    products.find((product) =>
-      product.slug?.toLowerCase().includes("kaminari"),
-    ) ??
+    products.find((product) => product.slug?.toLowerCase().includes("tsuki")) ??
     products.find((product) => !product.isLocked) ??
     products[0];
 
@@ -234,7 +236,7 @@ export function GodaiShowcase({ series, products, loading }: Props) {
                       alt={featured.name}
                       width={520}
                       height={720}
-                      className="h-[380px] w-auto object-contain drop-shadow-[0_42px_90px_rgba(0,0,0,0.9)]"
+                      className="h-[480px] w-auto object-contain drop-shadow-[0_42px_90px_rgba(0,0,0,0.9)]"
                     />
                   </motion.div>
                 ) : (
@@ -277,7 +279,7 @@ export function GodaiShowcase({ series, products, loading }: Props) {
             </p>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {lineupProducts.map((product, index) => (
               <motion.div
                 key={product.id}
@@ -285,6 +287,7 @@ export function GodaiShowcase({ series, products, loading }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.48, delay: index * 0.05 }}
+                className="h-full"
               >
                 <VariantCard product={product} />
               </motion.div>

@@ -1,13 +1,28 @@
 import Link from "next/link";
 import type { Series } from "@/types/series";
 
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/",
+  },
+  {
+    label: "TikTok",
+    href: "https://tiktok.com/",
+  },
+  {
+    label: "Shopee",
+    href: "https://shopee.co.id/",
+  },
+];
+
 export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
   return (
     <footer className="relative overflow-hidden border-t border-[#c8a35f]/10 px-6 py-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(200,163,95,0.06),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(200,163,95,0.07),transparent_34%)]" />
 
       <div className="relative mx-auto max-w-7xl">
-        <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
           <div>
             <h2 className="font-serif text-4xl tracking-[0.28em] text-[#fff7ea]">
               OROCHI
@@ -17,6 +32,20 @@ export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
               Fragrance sealed in myth. Dibangun dari elemen, suasana, simbol,
               dan legenda yang hidup di dalam aroma.
             </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {SOCIAL_LINKS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-[#c8a35f]/14 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-[#f8efe0]/45 transition hover:border-[#c8a35f]/55 hover:text-[#c8a35f]"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
 
             <p className="mt-8 text-[10px] uppercase tracking-[0.28em] text-[#c8a35f]/60">
               Luxury Fragrance Concept
@@ -36,16 +65,16 @@ export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
                 Godai
               </a>
               <a
-                href="#world"
-                className="block transition hover:text-[#c8a35f]"
-              >
-                World Of Orochi
-              </a>
-              <a
                 href="#philosophy"
                 className="block transition hover:text-[#c8a35f]"
               >
-                Philosophy
+                Chronicle
+              </a>
+              <a
+                href="/admin/login"
+                className="block transition hover:text-[#c8a35f]"
+              >
+                Admin
               </a>
             </div>
           </div>
@@ -66,6 +95,26 @@ export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
                 </Link>
               ))}
             </div>
+          </div>
+
+          <div className="rounded-[1.5rem] border border-[#c8a35f]/10 bg-[#070504] p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#c8a35f]/70">
+              Official Store
+            </p>
+
+            <p className="mt-5 text-sm leading-7 text-[#f8efe0]/48">
+              Temukan produk Orochi melalui official marketplace dan channel
+              sosial resmi.
+            </p>
+
+            <a
+              href="https://shopee.co.id/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex rounded-full bg-[#c8a35f] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-black transition hover:bg-[#e1bd75]"
+            >
+              Visit Shopee →
+            </a>
           </div>
         </div>
 
