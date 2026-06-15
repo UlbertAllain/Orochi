@@ -1,26 +1,36 @@
 import type { MetadataRoute } from "next";
-import { getAllProducts } from "@/services/product-service";
-import { getAllSeries } from "@/services/series-service";
+import { adminDb } from "@/lib/firebase/admin";
+import { COLLECTIONS } from "@/lib/firebase/collections";
+
+const baseUrl = "https://orochiperfumery.vercel.app";
+
+type SitemapDoc = {
+  slug?: string;
+  isVisible?: boolean;
+  isLocked?: boolean;
+  updatedAt?: {
+    toDate?: () => Date;
+  };
+};
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://orochiperfumery.vercel.app";
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+  ];
 
-  const [products, series] = await Promise.all([
-    getAllProducts(),
-    getAllSeries(),
+  const [seriesSnap, productsSnap] = await Promise.all([
+    adminDb.collection(COLLECTIONS.SERIES).get(),
+    adminDb.collection(COLLECTIONS.PRODUCTS).get(),
   ]);
 
-  const productUrls: MetadataRoute.Sitemap = products
-    .filter((product) => product.isVisible)
-    .map((product) => ({
-      url: `${baseUrl}/produk/${product.slug}`,
-      lastModified: product.updatedAt?.toDate?.() ?? new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    }));
-
-  const seriesUrls: MetadataRoute.Sitemap = series
-    .filter((item) => item.isVisible)
+  const seriesRoutes: MetadataRoute.Sitemap = seriesSnap.docs
+    .map((doc) => doc.data() as SitemapDoc)
+    .filter((item) => item.isVisible && item.slug)
     .map((item) => ({
       url: `${baseUrl}/series/${item.slug}`,
       lastModified: item.updatedAt?.toDate?.() ?? new Date(),
@@ -28,15 +38,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     }));
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
+  const productRoutes: MetadataRoute.Sitemap = productsSnap.docs
+    .map((doc) => doc.data() as SitemapDoc)
+    .filter((item) => item.isVisible && !item.isLocked && item.slug)
+    .map((item) => ({
+      url: `${baseUrl}/produk/${item.slug}`,
+      lastModified: item.updatedAt?.toDate?.() ?? new Date(),
       changeFrequency: "weekly",
-      priority: 1,
-    },
+      priority: 0.8,
+    }));
 
-    ...seriesUrls,
-    ...productUrls,
-  ];
+  return [...staticRoutes, ...seriesRoutes, ...productRoutes];
 }
