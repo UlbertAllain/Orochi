@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 
   description:
     "Orochi Perfumery adalah brand parfum niche Indonesia yang terinspirasi dari elemen, suasana, dan mitologi Jepang.",
+  verification: {
+    google: "14CtT8QLP2STOD4_zwrFYOpl5oOc1CT3mUnHVHNATHA",
+  },
 
   keywords: [
     "Orochi Perfumery",
@@ -82,9 +85,46 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Orochi Perfumery",
+    url: siteUrl,
+    logo: `${siteUrl}/assets/title.png`,
+    sameAs: [
+      "https://www.instagram.com/orochi.fragrance?igsh=bW1qMjVuMnNncWE3",
+      "https://shopee.co.id/",
+    ],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Orochi Perfumery",
+    url: siteUrl,
+    description:
+      "Brand parfum niche Indonesia terinspirasi elemen, suasana, dan mitologi Jepang.",
+  };
+
   return (
     <html lang="id" className="antialiased">
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+
+        {children}
+      </body>
     </html>
   );
 }
