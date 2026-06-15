@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
   description:
     "Orochi Perfumery adalah brand parfum niche Indonesia yang terinspirasi dari elemen, suasana, dan mitologi Jepang.",
+
   verification: {
     google: "14CtT8QLP2STOD4_zwrFYOpl5oOc1CT3mUnHVHNATHA",
   },
