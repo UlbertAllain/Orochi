@@ -8,25 +8,25 @@ const chapters = [
     title: "The Awakening",
     year: "Chapter I",
     description:
-      "Dunia Orochi dimulai dari gagasan bahwa aroma bukan hanya wangi, tetapi pengalaman yang membangkitkan suasana, kenangan, dan identitas.",
+      "Semuanya berawal dari sebuah pertanyaan sederhana: bagaimana jika aroma dapat membawa seseorang ke tempat, suasana, dan kenangan yang berbeda? Dari sanalah dunia Orochi mulai dibentuk.",
   },
   {
     title: "The Elements",
     year: "Chapter II",
     description:
-      "Godai menjadi fondasi pertama. Petir, air, api, dan elemen lainnya diterjemahkan menjadi karakter yang dapat dikenakan melalui aroma.",
+      "Alam menjadi bahasa pertama kami. Petir, hujan, api, angin, dan cahaya bulan diterjemahkan menjadi karakter aroma yang hidup, masing-masing dengan kepribadian dan emosinya sendiri.",
   },
   {
-    title: "The Myth",
+    title: "The Stories",
     year: "Chapter III",
     description:
-      "Setiap series membawa simbol, cerita, dan atmosfer yang berbeda. Bukan sekadar produk, melainkan chapter yang memperluas dunia Orochi.",
+      "Di balik setiap botol terdapat sebuah chapter. Tsuki membawa ketenangan malam, Kaminari menghadirkan energi yang berani, sementara aroma lainnya menyimpan kisah yang menunggu untuk ditemukan.",
   },
   {
-    title: "The Future",
+    title: "The Journey",
     year: "Chapter IV",
     description:
-      "Masih ada varian yang tersegel. Masih ada chapter yang belum dibuka. Perjalanan Orochi baru saja dimulai.",
+      "Orochi tidak dibangun untuk selesai dalam satu koleksi. Akan selalu ada cerita baru, elemen baru, dan chapter baru yang menunggu untuk dibuka di masa depan.",
   },
 ];
 

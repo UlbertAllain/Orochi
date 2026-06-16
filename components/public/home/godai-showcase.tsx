@@ -184,9 +184,10 @@ export function GodaiShowcase({ series, products, loading }: Props) {
             </p>
 
             <p className="mt-7 max-w-md text-sm leading-8 text-[#f8efe0]/44">
-              Dimulai dari elemen pertama, Godai membuka dunia Orochi melalui
-              aroma yang terikat pada petir, air, api, dan varian tersegel yang
-              belum dibangkitkan.
+              Karya pertama kami yang lahir dari filosofi lima elemen Jepang.
+              Setiap varian membawa karakter dan atmosfer yang berbeda,
+              menciptakan pengalaman yang lebih personal dibanding parfum
+              komersial pada umumnya.
             </p>
 
             <div className="mt-10">
@@ -274,8 +275,8 @@ export function GodaiShowcase({ series, products, loading }: Props) {
             </div>
 
             <p className="max-w-md text-sm leading-7 text-[#f8efe0]/45">
-              Setiap varian membawa elemen dan atmosfer yang berbeda. Beberapa
-              telah dirilis, sisanya masih tersegel.
+              Setiap varian membawa aroma sesuai elemen mereka yang berbeda.
+              Beberapa telah dirilis, sisanya masih tersegel.
             </p>
           </div>
 

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Orochi Perfumery adalah brand parfum niche Indonesia yang terinspirasi dari elemen, suasana, dan mitologi Jepang.",
+    "Orochi Perfumery adalah brand parfum niche Indonesia yang terinspirasi elemen, mitologi, dan estetika Jepang.",
 
   verification: {
     google: "14CtT8QLP2STOD4_zwrFYOpl5oOc1CT3mUnHVHNATHA",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "Orochi Perfumery",
     title: "Orochi Perfumery | Fragrance Sealed In Myth",
     description:
-      "Brand parfum niche Indonesia terinspirasi elemen, suasana, dan mitologi Jepang.",
+      "Brand parfum niche Indonesia terinspirasi elemen, mitologi, dan estetika Jepang.",
     images: [
       {
         url: "/assets/og/orochi-og.png",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Orochi Perfumery | Fragrance Sealed In Myth",
     description:
-      "Brand parfum niche Indonesia terinspirasi elemen, suasana, dan mitologi Jepang.",
+      "Brand parfum niche Indonesia terinspirasi elemen, mitologi, dan estetika Jepang.",
     images: ["/assets/og/orochi-og.png"],
   },
 
@@ -104,12 +104,12 @@ export default function RootLayout({
     name: "Orochi Perfumery",
     url: siteUrl,
     description:
-      "Brand parfum niche Indonesia terinspirasi elemen, suasana, dan mitologi Jepang.",
+      "Brand parfum niche Indonesia terinspirasi elemen, mitologi, dan estetika Jepang.",
   };
 
   return (
     <html lang="id" className="antialiased">
-      <body>
+      <body className="overflow-x-hidden">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -91,7 +91,7 @@ export function ProductDetailClient({
       <section className="relative overflow-hidden border-b border-[#c8a35f]/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(200,163,95,0.14),transparent_40%)]" />
 
-        <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 pb-24 pt-32 lg:grid-cols-[1fr_1fr]">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 pt-28 sm:px-6 lg:min-h-screen lg:grid-cols-[1fr_1fr] lg:pb-24 lg:pt-32">
           {/* ── LEFT: Info ── */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -110,12 +110,12 @@ export function ProductDetailClient({
             </p>
 
             <div className="mt-5 flex items-start gap-5">
-              <h1 className="font-serif text-6xl font-medium uppercase tracking-[-0.06em] text-[#fff7ea] md:text-8xl">
+              <h1 className="font-serif text-[3.5rem] font-medium uppercase tracking-[-0.06em] text-[#fff7ea] sm:text-6xl md:text-8xl">
                 {product.name}
               </h1>
 
               {product.kanji ? (
-                <span className="font-serif text-5xl text-[#c8a35f]/25">
+                <span className="font-serif text-3xl text-[#c8a35f]/25 sm:text-5xl">
                   {product.kanji}
                 </span>
               ) : null}
@@ -213,7 +213,7 @@ export function ProductDetailClient({
           >
             {/* Kanji watermark di belakang */}
             {product.kanji ? (
-              <div className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-serif text-[18rem] leading-none text-[#c8a35f]/[0.04]">
+              <div className="pointer-events-none absolute -right-6 top-1/2 hidden -translate-y-1/2 select-none font-serif text-[10rem] leading-none text-[#c8a35f]/[0.04] sm:block sm:text-[14rem] lg:text-[18rem]">
                 {product.kanji}
               </div>
             ) : null}
@@ -264,7 +264,7 @@ export function ProductDetailClient({
 
               {/* Floating label badge di luar gambar */}
               {product.element ? (
-                <div className="absolute -right-3 top-6 z-30 rounded-full border border-[#c8a35f]/20 bg-[#070504]/90 px-4 py-2 backdrop-blur-md">
+                <div className="absolute left-4 top-4 z-30 sm:left-auto sm:right-4 rounded-full border border-[#c8a35f]/20 bg-[#070504]/90 px-4 py-2 backdrop-blur-md">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-[#c8a35f]">
                     {product.element}
                   </p>
@@ -273,7 +273,7 @@ export function ProductDetailClient({
             </div>
 
             {/* Info strips di bawah gambar */}
-            <div className="mt-6 flex w-full max-w-[520px] items-center justify-between gap-4 px-1">
+            <div className="mt-6 flex w-full max-w-[520px] flex-col gap-3 px-1 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
               {product.mood ? (
                 <div className="flex items-center gap-2">
                   <span className="inline-block h-1 w-1 rounded-full bg-[#c8a35f]/60" />
@@ -301,7 +301,7 @@ export function ProductDetailClient({
               <p className="text-xs uppercase tracking-[0.5em] text-[#c8a35f]">
                 Related
               </p>
-              <h2 className="mt-4 font-serif text-5xl uppercase text-[#fff7ea]">
+              <h2 className="mt-4 font-serif text-[2.5rem] uppercase text-[#fff7ea] sm:text-5xl">
                 You May Also Like
               </h2>
             </div>

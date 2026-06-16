@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const reasons = [
   {
     title: "Long Lasting",
-    value: "8–10 Hours",
+    value: "6–8 Hours",
     description:
       "Dirancang untuk bertahan sepanjang aktivitas tanpa kehilangan karakter aroma utamanya.",
   },
@@ -13,13 +13,13 @@ const reasons = [
     title: "Eau de Parfum",
     value: "High Concentration",
     description:
-      "Konsentrasi fragrance oil yang lebih tinggi untuk aroma yang lebih kaya dan tahan lama.",
+      "Konsentrasi racikan dari fragrance oil yang lebih tinggi untuk aroma yang lebih kaya, bervariasi, dan tahan lama.",
   },
   {
     title: "Japanese Inspired",
     value: "Myth & Elements",
     description:
-      "Setiap varian lahir dari elemen, legenda, dan atmosfer yang terinspirasi dari budaya Jepang.",
+      "Setiap varian lahir dari elemen, legenda, dan suasana yang terinspirasi dari budaya Jepang.",
   },
   {
     title: "Affordable Luxury",

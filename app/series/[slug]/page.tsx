@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import { PublicNavbar } from "@/components/public/public-navbar";
 import { getProductsBySeriesId } from "@/services/product-service";
 import { getSeriesBySlug } from "@/services/series-service";
-import { PublicNavbar } from "@/components/public/public-navbar";
 
 type Props = {
   params: Promise<{
@@ -14,9 +15,11 @@ type Props = {
 
 function getSeriesSymbol(name: string) {
   const lower = name.toLowerCase();
+
   if (lower.includes("godai")) return "五";
   if (lower.includes("keshiki")) return "景";
   if (lower.includes("kami")) return "神";
+
   return "蛇";
 }
 
@@ -45,23 +48,22 @@ export default async function SeriesPage({ params }: Props) {
   const products = await getProductsBySeriesId(series.id);
   const symbol = getSeriesSymbol(series.name);
 
-  const activeProducts = products.filter((p) => !p.isLocked);
-  const lockedProducts = products.filter((p) => p.isLocked);
+  const activeProducts = products.filter((product) => !product.isLocked);
+  const lockedProducts = products.filter((product) => product.isLocked);
 
   return (
-    <main className="min-h-screen bg-[#030201] text-[#f8efe0]">
+    <main className="min-h-screen overflow-x-hidden bg-[#030201] text-[#f8efe0]">
       <PublicNavbar variant="solid" />
 
-      {/* ── HERO SECTION ── */}
+      {/* HERO SECTION */}
       <section className="relative overflow-hidden border-b border-[#c8a35f]/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_30%,rgba(200,163,95,0.10),transparent_40%)]" />
 
-        {/* Watermark Kanji */}
-        <div className="absolute -right-10 top-10 select-none font-serif text-[20rem] leading-none text-[#c8a35f]/[0.03] md:top-0">
+        <div className="pointer-events-none absolute -right-16 top-20 select-none font-serif text-[12rem] leading-none text-[#c8a35f]/[0.035] sm:-right-10 sm:text-[16rem] md:top-0 md:text-[20rem]">
           {symbol}
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-32">
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8">
           <Link
             href="/"
             className="group inline-flex items-center gap-2 text-sm text-[#f8efe0]/45 transition hover:text-[#c8a35f]"
@@ -70,46 +72,49 @@ export default async function SeriesPage({ params }: Props) {
             Kembali
           </Link>
 
-          <div className="mt-14 flex flex-col justify-between gap-10 md:flex-row md:items-end">
+          <div className="mt-12 flex flex-col justify-between gap-10 md:flex-row md:items-end">
             <div className="max-w-2xl">
-              <p className="text-[10px] uppercase tracking-[0.6em] text-[#c8a35f]">
+              <p className="text-[10px] uppercase tracking-[0.42em] text-[#c8a35f] sm:tracking-[0.6em]">
                 Orochi Series
               </p>
 
-              <h1 className="mt-4 font-serif text-6xl font-medium uppercase tracking-[-0.04em] text-[#fff7ea] md:text-8xl">
+              <h1 className="mt-4 font-serif text-[3.25rem] font-medium uppercase leading-[0.9] tracking-[-0.045em] text-[#fff7ea] sm:text-6xl md:text-8xl">
                 {series.name}
               </h1>
 
-              <p className="mt-6 max-w-lg text-sm leading-8 text-[#f8efe0]/55">
+              <p className="mt-6 max-w-lg text-sm leading-7 text-[#f8efe0]/55 sm:leading-8">
                 {series.description}
               </p>
             </div>
 
-            {/* Minimalist Stats Bar */}
-            <div className="flex items-center gap-6 border-t border-[#c8a35f]/15 pt-5 md:border-t-0 md:border-l md:py-0 md:pl-6">
+            <div className="grid grid-cols-3 gap-4 border-t border-[#c8a35f]/15 pt-5 md:flex md:items-center md:gap-6 md:border-l md:border-t-0 md:py-0 md:pl-6">
               <div>
                 <p className="font-serif text-3xl text-[#c8a35f]">
                   {products.length}
                 </p>
-                <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#f8efe0]/35">
+                <p className="mt-1 text-[9px] uppercase tracking-[0.2em] text-[#f8efe0]/35 sm:tracking-[0.25em]">
                   Variants
                 </p>
               </div>
-              <div className="h-8 w-px bg-[#c8a35f]/15" />
+
+              <div className="hidden h-8 w-px bg-[#c8a35f]/15 md:block" />
+
               <div>
                 <p className="font-serif text-3xl text-[#c8a35f]">
                   {activeProducts.length}
                 </p>
-                <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#f8efe0]/35">
+                <p className="mt-1 text-[9px] uppercase tracking-[0.2em] text-[#f8efe0]/35 sm:tracking-[0.25em]">
                   Released
                 </p>
               </div>
-              <div className="h-8 w-px bg-[#c8a35f]/15" />
+
+              <div className="hidden h-8 w-px bg-[#c8a35f]/15 md:block" />
+
               <div>
                 <p className="font-serif text-3xl text-[#c8a35f]/50">
                   {lockedProducts.length}
                 </p>
-                <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#f8efe0]/35">
+                <p className="mt-1 text-[9px] uppercase tracking-[0.2em] text-[#f8efe0]/35 sm:tracking-[0.25em]">
                   Sealed
                 </p>
               </div>
@@ -118,41 +123,40 @@ export default async function SeriesPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── COLLECTION GRID ── */}
-      <section className="mx-auto max-w-7xl px-6 py-24">
+      {/* COLLECTION GRID */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         {products.length === 0 ? (
-          <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-dashed border-[#c8a35f]/15">
+          <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-dashed border-[#c8a35f]/15 px-6 text-center">
             <p className="text-sm text-[#f8efe0]/45">
               Series ini belum memiliki produk.
             </p>
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((product, index) => {
               const isFirst = index === 0;
 
               const cardContent = (
                 <article
-                  className={`group relative overflow-hidden rounded-2xl border border-[#c8a35f]/10 bg-[#050403] transition duration-500 hover:border-[#c8a35f]/40 ${
-                    isFirst ? "md:aspect-[4/5] md:row-span-2" : "aspect-[4/5]"
-                  }`}
+                  className={[
+                    "group relative aspect-[4/5] overflow-hidden rounded-2xl border border-[#c8a35f]/10 bg-[#050403] transition duration-500 hover:border-[#c8a35f]/40",
+                    isFirst ? "lg:col-span-2 lg:row-span-2" : "",
+                  ].join(" ")}
                 >
-                  {/* Image Layer (Full Bleed) */}
                   <div className="absolute inset-0">
                     {product.imageUrl && !product.isLocked ? (
                       <Image
                         src={product.imageUrl}
                         alt={product.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition duration-700 scale-105 group-hover:scale-110"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="scale-105 object-cover transition duration-700 group-hover:scale-110"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center bg-[#070504]">
-                        {/* Abstract geometric for locked */}
                         <div className="relative flex h-32 w-32 items-center justify-center rounded-full border border-[#c8a35f]/20">
                           <div className="absolute h-16 w-px bg-[#c8a35f]/30" />
-                          <div className="absolute w-16 h-px bg-[#c8a35f]/30" />
+                          <div className="absolute h-px w-16 bg-[#c8a35f]/30" />
                           <span className="font-serif text-5xl text-[#c8a35f]/25">
                             ?
                           </span>
@@ -161,14 +165,12 @@ export default async function SeriesPage({ params }: Props) {
                     )}
                   </div>
 
-                  {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/20" />
 
-                  {/* Locked Redaction Overlay */}
-                  {product.isLocked && (
+                  {product.isLocked ? (
                     <div className="absolute inset-0 z-10 overflow-hidden">
                       <div className="absolute inset-0 bg-[#030201]/70 backdrop-blur-[2px]" />
-                      {/* Diagonal stripes aesthetic */}
+
                       <div
                         className="absolute inset-0 opacity-[0.03]"
                         style={{
@@ -186,20 +188,20 @@ export default async function SeriesPage({ params }: Props) {
                         </div>
                       </div>
                     </div>
-                  )}
+                  ) : null}
 
-                  {/* Bottom Gradient & Text Layer */}
-                  <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#030201] via-[#030201]/80 to-transparent pb-7 pt-24 px-6">
-                    <p className="text-[10px] uppercase tracking-[0.35em] text-[#c8a35f]/80">
+                  <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#030201] via-[#030201]/80 to-transparent px-5 pb-6 pt-24 sm:px-6 sm:pb-7">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#c8a35f]/80 sm:tracking-[0.35em]">
                       {product.isLocked
                         ? "Sealed Variant"
                         : product.element || product.meaning || "Orochi"}
                     </p>
 
                     <h3
-                      className={`mt-2 font-serif uppercase text-[#fff7ea] ${
-                        isFirst ? "text-5xl" : "text-3xl"
-                      }`}
+                      className={[
+                        "mt-2 font-serif uppercase leading-none text-[#fff7ea]",
+                        isFirst ? "text-4xl lg:text-5xl" : "text-3xl",
+                      ].join(" ")}
                     >
                       {product.name}
                     </h3>
@@ -212,23 +214,30 @@ export default async function SeriesPage({ params }: Props) {
                           "Signature scent from Orochi."}
                     </p>
 
-                    {/* Action Line */}
-                    {!product.isLocked && (
+                    {!product.isLocked ? (
                       <div className="mt-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#c8a35f]">
                         <span className="h-px w-5 bg-[#c8a35f]/50 transition duration-500 group-hover:w-10" />
                         <span>Explore</span>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </article>
               );
 
               if (product.isLocked) {
-                return <div key={product.id}>{cardContent}</div>;
+                return (
+                  <div key={product.id} className="block">
+                    {cardContent}
+                  </div>
+                );
               }
 
               return (
-                <Link key={product.id} href={`/produk/${product.slug}`}>
+                <Link
+                  key={product.id}
+                  href={`/produk/${product.slug}`}
+                  className="block"
+                >
                   {cardContent}
                 </Link>
               );

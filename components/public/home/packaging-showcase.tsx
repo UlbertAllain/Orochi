@@ -69,7 +69,7 @@ export function PackagingShowcase() {
             <p className="mt-7 max-w-md text-sm leading-7 text-[#f8efe0]/62 sm:mt-8 sm:leading-8">
               Orochi dirancang bukan hanya sebagai aroma, tetapi sebagai
               artefak. Setiap botol dan kemasan membawa karakter elemen, simbol,
-              dan suasana dari series yang menaunginya.
+              dan suasana dari series nya.
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
@@ -77,7 +77,7 @@ export function PackagingShowcase() {
                 href="/series/godai-series"
                 className="rounded-full bg-[#c8a35f] px-6 py-3 text-center text-[11px] font-bold uppercase tracking-[0.22em] text-black transition hover:bg-[#e1bd75] sm:px-7"
               >
-                Discover Godai
+                Discover Godai Series
               </Link>
 
               <a
