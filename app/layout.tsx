@@ -6,6 +6,7 @@ import "@fontsource-variable/cormorant-garamond/wght.css";
 const siteUrl = "https://orochiperfumery.vercel.app";
 
 export const metadata: Metadata = {
+  applicationName: "Orochi Perfumery",
   metadataBase: new URL(siteUrl),
 
   title: {
@@ -75,9 +76,9 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/assets/title.png",
-    shortcut: "/assets/title.png",
-    apple: "/assets/title.png",
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
 };
 

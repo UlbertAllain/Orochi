@@ -76,7 +76,7 @@ export default async function HomePage() {
 
       <ComingSoonSection products={lockedProducts} />
 
-      <SiteFooter seriesList={seriesList} />
+      <SiteFooter />
     </main>
   );
 }

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { Series } from "@/types/series";
 
 const SOCIAL_LINKS = [
   {
@@ -16,7 +15,7 @@ const SOCIAL_LINKS = [
   },
 ];
 
-export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
+export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-[#c8a35f]/10 px-6 py-16">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(200,163,95,0.07),transparent_34%)]" />
@@ -70,12 +69,6 @@ export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
               >
                 Chronicle
               </a>
-              <a
-                href="/admin/login"
-                className="block transition hover:text-[#c8a35f]"
-              >
-                Admin
-              </a>
             </div>
           </div>
 
@@ -85,15 +78,20 @@ export function SiteFooter({ seriesList }: { seriesList: Series[] }) {
             </p>
 
             <div className="mt-5 space-y-3 text-sm text-[#f8efe0]/50">
-              {seriesList.map((series) => (
-                <Link
-                  key={series.id}
-                  href={`/series/${series.slug}`}
-                  className="block transition hover:text-[#c8a35f]"
-                >
-                  {series.name}
-                </Link>
-              ))}
+              <Link
+                href="/series/godai"
+                className="block transition hover:text-[#c8a35f]"
+              >
+                Godai Series
+              </Link>
+
+              <span className="block text-[#f8efe0]/25">
+                Keshiki Series — Coming Soon
+              </span>
+
+              <span className="block text-[#f8efe0]/25">
+                Kami Series — Coming Soon
+              </span>
             </div>
           </div>
 
